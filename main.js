@@ -3,8 +3,8 @@ canvas.width = 800;
 canvas.height = 700;
 
 const ctx = canvas.getContext("2d");
-const player1 = new Racket(30, 300, 20, 100);
-const player2 = new Racket(770, 300, 20, 100);
+const player1 = new Racket(30, 300, 20, 100, "player1");
+const player2 = new Racket(770, 300, 20, 100, "player2");
 const ball = new Ball(canvas.width, canvas.height, 10);
 const table = new Borders(canvas.width, canvas.width * 0.994, canvas.height);
 const score = new Score(player1, player2);

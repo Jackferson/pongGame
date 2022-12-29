@@ -1,13 +1,25 @@
 class Racket {
-  constructor(x, y, width, height) {
+  constructor(x, y, width, height, player) {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
-
   }
   move() {
     this.limitMovement();
+
+    if (gameControls.player1.upside) {
+      player1.y -= 5;
+    }
+    if (gameControls.player1.downside) {
+      player1.y += 5;
+    }
+    if (gameControls.player2.upside) {
+      player2.y -= 5;
+    }
+    if (gameControls.player2.downside) {
+      player2.y += 5;
+    }
   }
 
   limitMovement() {

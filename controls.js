@@ -38,7 +38,7 @@ class Controls {
           this.player1.upside = false;
           break;
         case "s":
-          this.player2.downside = false;
+          this.player1.downside = false;
           break;
         case "5":
           this.player2.upside = false;
