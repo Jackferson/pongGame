@@ -21,7 +21,7 @@ class Ball {
     this.#wallBounce();
   }
 
-  draw(ctx, canvasWidth) {
+  draw(ctx) {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius + 1, 2 * Math.PI, 0);
     ctx.fillStyle = "black";
@@ -31,20 +31,6 @@ class Ball {
     ctx.arc(this.x, this.y, this.radius, 2 * Math.PI, 0);
     ctx.fillStyle = "lightgreen";
     ctx.fill();
-
-    const A = { x: this.x, y: this.y };
-    const C = { x: this.orientation ? canvasWidth : 0, y: this.y };
-    const B = {
-      x: this.orientation ? canvasWidth : 0,
-      y: this.vertical
-        ? this.y - this.getDirection(A, C)
-        : this.y + this.getDirection(A, C),
-    };
-
-    ctx.beginPath();
-    ctx.moveTo(A.x, A.y);
-    ctx.lineTo(B.x, B.y);
-    ctx.stroke();
   }
 
   getAngle() {
@@ -101,14 +87,5 @@ class Ball {
         ? (this.y -= Math.sin(this.angle) * this.speed)
         : (this.y += Math.sin(this.angle) * this.speed);
     }
-  }
-
-  // Functions used when developing
-  distance(p1, p2) {
-    return Math.hypot(p1.x - p2.x, p1.y - p2.y);
-  }
-
-  getDirection(A, C) {
-    return Math.tan(this.angle) * this.distance(A, C);
   }
 }
