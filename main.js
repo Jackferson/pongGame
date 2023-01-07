@@ -15,9 +15,9 @@ function animate() {
   player1.move("player1");
   player2.move("player2");
   canvas.height = 700;
-  ball.draw(ctx, "white");
-  // ball.movement();
-  ball.update();
+  ball.draw(ctx, canvas.width);
+  ball.movement();
+  ball.update(canvas.width);
   score.update();
   table.draw(ctx);
   player1.draw(ctx, "cyan");

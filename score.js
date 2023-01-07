@@ -1,9 +1,4 @@
 //  ToDo!!
-//  PointDetector
-//  OnPoint, pause the game
-//  Renew the game at press space
-//  Change bounce to racket parameters
-//  Separate racket controls
 //  Draw scores
 
 class Score {
@@ -20,21 +15,25 @@ class Score {
   }
 
   #newPoint() {
-    ball.speed = 0;
     ball.x = ball.restartValues.x;
     ball.y = ball.restartValues.y;
-    ball.speed = 0;
-    ball.pauseCalled();
+    ball.angle = ball.restartValues.angle;
+    ball.speed = ball.restartValues.speed;
+    gameControls.pauseGame()
   }
 
   #pointDetector() {
     if (ball.x >= table.limits[1][0].x) {
       this.player1Points++;
       console.log("player1 points: " + this.player1Points);
+      this.#newPoint();
     }
     if (ball.x <= table.limits[0][0].x) {
       this.player2Points++;
       console.log("player2 points: " + this.player2Points);
+      this.#newPoint();
     }
   }
 }
+
+//  

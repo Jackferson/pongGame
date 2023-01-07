@@ -22,6 +22,21 @@ class Racket {
     }
   }
 
+  getCurrentPosition() {
+    const rightTop = {
+      x: this.x + this.width / 2,
+      y: this.y - this.height / 2,
+    };
+    const rightBtm = {
+      x: this.x + this.width / 2,
+      y: this.y + this.height / 2,
+    };
+    const leftTop = { x: this.x - this.width / 2, y: this.y + this.height / 2 };
+    const leftBtm = { x: this.x - this.width / 2, y: this.y - this.height / 2 };
+
+    const position = [rightTop, rightBtm, leftTop, leftBtm];
+    return position;
+  }
   limitMovement() {
     if (this.y - this.height / 2 <= table.top) {
       this.y = this.height / 2 + 2;

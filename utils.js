@@ -10,11 +10,10 @@ function getIntersection(A, B, C, D) {
   if (bottom != 0) {
     const t = tTop / bottom;
     const u = uTop / bottom;
-    if (t >= 0 && t <= 1 && u >= 0 && y <= 1) {
+    if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
       return {
         x: lerp(A.x, B.x, t),
         y: lerp(A.y, B.y, t),
-        offset: t,
       };
     }
   }
@@ -23,14 +22,14 @@ function getIntersection(A, B, C, D) {
 
 function doesIntersect(element1, element2) {
   for (let i = 0; i < element1.length; i++) {
-    for (let j = 0; i < element2.length; j++) {
-      const crash = getIntersection(
+    for (let j = 0; j < element2.length - 1; j++) {
+      const hit = getIntersection(
         element1[i],
         element1[(i + 1) % element1.length],
         element2[j],
         element2[(j + 1) % element2.length]
       );
-      if (crash) {
+      if (hit) {
         return true;
       }
     }

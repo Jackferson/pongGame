@@ -7,9 +7,9 @@ class Controls {
     this.#keyboardListener();
   }
 
-  #pauseGame() {
-    console.log("PAUSED STATE: " + this.paused);
+  pauseGame() {
     this.paused ? (this.paused = false) : (this.paused = true);
+    console.log("PAUSED STATE: " + this.paused);
   }
 
   #keyboardListener() {
@@ -28,7 +28,7 @@ class Controls {
           this.player2.downside = true;
           break;
         case " ":
-          this.#pauseGame();
+          this.pauseGame();
           break;
       }
     };

@@ -13,24 +13,15 @@ class Ball {
     this.vertical = true;
     this.angle = 0;
 
-    const restartValues = { x: canvasWidth / 2, y: canvasHeight / 2 };
-  }
-
-  pauseCalled() {
-    let tempSpeed = this.speed;
-    if (player1.controls.paused || player2.controls.paused) {
-      console.log("trigger");
-    } else {
-      this.speed = tempSpeed;
-    }
+    this.restartValues = { x: canvasWidth / 2, y: canvasHeight / 2, angle: 0, speed: 2 };
   }
 
   update() {
-    this.#racketBounce();
+    this.#racketDetector();
     this.#wallBounce();
   }
 
-  draw(ctx) {
+  draw(ctx, canvasWidth) {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius + 1, 2 * Math.PI, 0);
     ctx.fillStyle = "black";
@@ -40,6 +31,20 @@ class Ball {
     ctx.arc(this.x, this.y, this.radius, 2 * Math.PI, 0);
     ctx.fillStyle = "lightgreen";
     ctx.fill();
+
+    const A = { x: this.x, y: this.y };
+    const C = { x: this.orientation ? canvasWidth : 0, y: this.y };
+    const B = {
+      x: this.orientation ? canvasWidth : 0,
+      y: this.vertical
+        ? this.y - this.getDirection(A, C)
+        : this.y + this.getDirection(A, C),
+    };
+
+    ctx.beginPath();
+    ctx.moveTo(A.x, A.y);
+    ctx.lineTo(B.x, B.y);
+    ctx.stroke();
   }
 
   getAngle() {
@@ -56,21 +61,54 @@ class Ball {
     }
   }
 
-  //  Change table limits for racket values.
-  #racketBounce() {
-    if (this.x >= table.limits[1][0].x || this.x <= table.limits[0][0].x) {
-      this.orientation = !this.orientation;
-      this.speed += 1;
-      this.angle = this.getAngle();
+  #racketDetector() {
+    this.points = [
+      { x: this.x - this.radius / 2, y: this.y - this.radius / 2 },
+      { x: this.x + this.radius / 2, y: this.y - this.radius / 2 },
+      { x: this.x - this.radius / 2, y: this.y + this.radius / 2 },
+      { x: this.x + this.radius / 2, y: this.y + this.radius / 2 },
+    ];
+
+    const position1 = player1.getCurrentPosition();
+    const position2 = player2.getCurrentPosition();
+
+    if (doesIntersect(position2, this.points)) {
+      this.#bounce(false);
     }
-    if (this.speed >= this.maxSpeed) {
-      this.speed = this.maxSpeed;
+    if (doesIntersect(position1, this.points)) {
+      this.#bounce(true);
     }
   }
+
+  #bounce(value) {
+    this.orientation = value;
+    this.angle = this.getAngle();
+    if (this.speed >= this.maxSpeed) {
+      this.speed = this.maxSpeed;
+    } else {
+      this.speed += 1;
+    }
+  }
+
   movement() {
-    this.orientation ? (this.x += this.speed) : (this.x -= this.speed);
-    this.vertical
-      ? (this.y -= this.angle * this.speed)
-      : (this.y += this.angle * this.speed);
+    if (gameControls.paused) {
+      null;
+    } else {
+      this.orientation
+        ? (this.x += Math.cos(this.angle) * this.speed)
+        : (this.x -= Math.cos(this.angle) * this.speed);
+      this.vertical
+        ? (this.y -= Math.sin(this.angle) * this.speed)
+        : (this.y += Math.sin(this.angle) * this.speed);
+    }
+  }
+
+  // Functions used when developing
+  distance(p1, p2) {
+    return Math.hypot(p1.x - p2.x, p1.y - p2.y);
+  }
+
+  getDirection(A, C) {
+    return Math.tan(this.angle) * this.distance(A, C);
   }
 }
