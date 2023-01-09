@@ -2,9 +2,18 @@ body{
   margin-top: 25px;
   overflow: hidden;
   display: flex;
-  justify-content: center;
   background: black;
+  justify-content: space-evenly;
 }
 #myCanvas{
   background: darkslategray;
+  display: flex;
+}
+#scoreText{
+  margin-top: 50px;
+  color:cornflowerblue;
+  width: 110px;
+}
+#leftside, #rightside{
+  line-height: 2;
 }
